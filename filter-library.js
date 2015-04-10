@@ -36,10 +36,9 @@
 			if(typeof selections == "undefined")//Just in case
 				selections = {};
 				
-			for(i=0; i<master[0].length; i++){
-				var child = $(jQueryTableObj).children('tbody').children('tr:nth-child('+ (i+1) +')');
-				child.css('display',"table-row");
-			}
+			
+			$(jQueryTableObj).children('tbody').children('tr').css('display',"table-row");
+			
 			if(! $.isEmptyObject(selections))
 				$.each(selections, function(key, value){
 					var currentColumn = Number(key.replace("col-",""));
@@ -51,8 +50,8 @@
 		function placeMultiSelectors(){
 			var pos = {top: 0, left: 0};
 			for(index in multiSelectorsDivArr){
-					for(var i=1; i <= master[0].length; i++){
-						pos = $(jQueryTableObj).children("tbody").children("tr:nth-child("+i+")").children("td:nth-child("+(multiSelectorsDivArr[index].col+1)+")").position();
+					for(var i=0; i < master[0].length; i++){
+						pos = $(document.getElementById(tableID).tBodies[0].rows[i].cells[multiSelectorsDivArr[index].col]).position();
 						if(pos["left"] != 0)
 							break;
 					}
@@ -89,11 +88,10 @@
 		}
 		
 		function hideTheSelected(currentColumn, selected){
-			for(i=0; i<master[currentColumn].length; i++){
-				var child = $(jQueryTableObj).children('tbody').children('tr:nth-child('+ (i+1) +')');
+			for(i=0; i < master[currentColumn].length; i++){
 				//If the column is not selected get rid of it
 				if(selected.indexOf(master[currentColumn][i]) == -1)
-					child.css('display', "none");
+					$(document.getElementById(tableID).tBodies[0].rows[i]).css('display', "none");;
 			}
 		}
 		
@@ -111,8 +109,8 @@
 			var button = document.createElement('input');
 			button.setAttribute("type", "image");
 			button.setAttribute("class", "filter-picture");
-			button.setAttribute("src", "js/filter-images/filter.png");
-			//<input type="image" src="logg.png" name="saveForm" class="btTxt submit" id="saveForm" />
+			button.setAttribute("src", "js/table-filter/style/filter.png");
+			
 			$(rowHeaders[col]).append(button);
 			
 			var pos = $(jQueryTableObj).children("tbody").children("tr:nth-child(1)").children("td:nth-child("+(col+1)+")").position();
@@ -124,7 +122,8 @@
 			});
 			$("#"+divID).hide();
 			
-			$(button).click(function(){
+			$(button).click(function(e){
+				e.stopPropagation();
 				hideAllMultiSelectors(divID);
 				if($("#"+divID).css("display") == "none"){
 					$("#"+divID).show();
@@ -212,9 +211,10 @@
 		
 		jQueryTableObj = this;
 		rowHeaders = $(this).children('thead').children('tr').children('th'); 
-		var tableID = $(this).attr('id');
+		tableID = $(this).attr('id');
 		if (typeof tableID === "undefined"){
-			throw "Table must have an id";
+			return false;
+			//throw "Table must have an id";
 		}
 		cols = document.getElementById(tableID).rows[0].cells.length;
 		
