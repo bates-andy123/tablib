@@ -33,6 +33,9 @@
 		}
 		
 		function doFilterSort(selections){
+			
+			buildData(cols);
+			
 			if(typeof selections == "undefined")//Just in case
 				selections = {};
 				
