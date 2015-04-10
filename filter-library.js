@@ -207,21 +207,11 @@
 			});
 		}
 		
-		colsToAdd = initObj["cols"];
-		
-		jQueryTableObj = this;
-		rowHeaders = $(this).children('thead').children('tr').children('th'); 
-		tableID = $(this).attr('id');
-		if (typeof tableID === "undefined"){
-			return false;
-			//throw "Table must have an id";
-		}
-		cols = document.getElementById(tableID).rows[0].cells.length;
-		
-		for(var i=0; i<cols; i++){
+		function buildData(cols){
+			for(var i=0; i<cols; i++){
 			var table = "td:nth-child(" + (i + 1) + ")";
 			 
-			master[i] = $(this).children('tbody').children('tr').children(table);
+			master[i] = $(document.getElementById(tableID).tBodies[0].rows).children(table);
 			
 			master[i] = $(master[i]).map(function(){
 				return $.trim($(this).text());
@@ -229,7 +219,24 @@
 			
 			unique[i] = master[i].slice();
 			unique[i] = unique[i].filter( onlyUnique );
+			}
 		}
+		
+		
+		
+		colsToAdd = initObj["cols"];
+		
+		jQueryTableObj = this;
+		
+		tableID = $(this).attr('id');
+		if (typeof tableID === "undefined"){
+			return false;
+			//throw "Table must have an id";
+		}
+		rowHeaders = $(this).children('thead').children('tr').children('th'); 
+		cols = document.getElementById(tableID).rows[0].cells.length;
+		
+		buildData(cols);
 		
 		//Do sort the arrays for good flow
 		for(index in unique){
