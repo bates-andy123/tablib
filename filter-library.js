@@ -113,7 +113,7 @@
 			
 			$(rowHeaders[col]).append(button);
 			
-			var pos = $(jQueryTableObj).children("tbody").children("tr:nth-child(1)").children("td:nth-child("+(col+1)+")").position();
+			var pos = $(document.getElementById(tableID).tBodies[0].rows[0].cells[col]).position();
 			//console.log(pos);
 			$("#"+divID).css({
 				position: "absolute",
