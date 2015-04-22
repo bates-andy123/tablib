@@ -127,6 +127,7 @@
 			
 			$(button).click(function(e){
 				e.stopPropagation();
+				placeMultiSelectors();
 				hideAllMultiSelectors(divID);
 				if($("#"+divID).css("display") == "none"){
 					$("#"+divID).show();
