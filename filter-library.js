@@ -173,15 +173,15 @@
 						form.appendChild(br);
 					}
 					var divID = "div"+tableID+"-"+col;
-					var s = document.createElement("input"); //input element, Submit button
-					s.setAttribute('type',"submit");
-					s.setAttribute('value',"Submit");
-					s.setAttribute('class', 'filter-button')
-					form.appendChild(s);
-					var reset = document.createElement("button");
-					reset.setAttribute("class", "reset-button");
-					reset.innerHTML = "Reset";
-					form.appendChild(reset);
+					var filterButton = document.createElement("input"); //input element, Submit button
+					filterButton.setAttribute('type',"submit");
+					filterButton.setAttribute('value',"Submit");
+					filterButton.setAttribute('class', 'filter-button')
+					form.appendChild(filterButton);
+					var resetButton = document.createElement("button");
+					resetButton.setAttribute("class", "reset-button");
+					resetButton.innerHTML = "Reset";
+					form.appendChild(resetButton);
 					
 					var div = document.createElement('div');
 					div.setAttribute('id',divID);
@@ -192,21 +192,21 @@
 					multiSelectorsDivArr.push({divID:divID, col: col});
 					
 					addFilterButton(col,divID);//Adding the button to trigger filter
+					$(filterButon).click(function(){//Cause the form to be submitted
+						doFilterSort($(".doFilterSort").serializeObject());
+						hideAllMultiSelectors();
+					});
+					$(resetButton).click(function(){
+						doFilterSort({});//Empty object causes nothing to be reset
+						uncheckAllMultiSelects();
+						hideAllMultiSelectors();
+					});
 				}
 			}	
 			
 			$('.doFilterSort').submit(function(event){//Stops the form from being submited
 				event.preventDefault();
 				return false;
-			});
-			$('.filter-button').click(function(){//Cause the form to be submitted
-				doFilterSort($(".doFilterSort").serializeObject());
-				hideAllMultiSelectors();
-			});
-			$('.reset-button').click(function(){
-				doFilterSort({});//Empty object causes nothing to be reset
-				uncheckAllMultiSelects();
-				hideAllMultiSelectors();
 			});
 		}
 		
