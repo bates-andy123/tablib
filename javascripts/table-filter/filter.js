@@ -63,7 +63,7 @@
 					return;
 				}
 				else	
-					$("#"+multiSelectorsDivArr[index].divID).css({
+					$(multiSelectorsDivArr[index].div).css({
 						top: pos["top"],
 						left: pos["left"]
 					});
@@ -86,7 +86,7 @@
 		
 		function uncheckAllMultiSelects(){
 			for(index in multiSelectorsDivArr){
-				$("#" + multiSelectorsDivArr[index].divID + " input[type='checkbox']").prop('checked', false);
+				$(multiSelectorsDivArr[index].div).find("input[type='checkbox']").prop('checked', false);
 			}
 		}
 		
@@ -98,17 +98,17 @@
 			}
 		}
 		
-		function hideAllMultiSelectors(exceptionID){
-			if (typeof exceptionID == "undefined")
-				exceptionID = ""
+		function hideAllMultiSelectors(exceptionDOM){
+			if (typeof exceptionDOM == "undefined")
+				exceptionDOM = ""
 			for(index in multiSelectorsDivArr){
-				if(multiSelectorsDivArr[index].divID != exceptionID){
-					$("#"+multiSelectorsDivArr[index].divID).hide();
+				if(multiSelectorsDivArr[index].div != exceptionDOM){
+					$(multiSelectorsDivArr[index].div).hide();
 				}
 			}
 		}
 		
-		function addFilterButton(col, divID){
+		function addFilterButton(col, div){
 			var button = document.createElement('input');
 			button.setAttribute("type", "image");
 			button.setAttribute("class", "filter-picture");
@@ -118,21 +118,21 @@
 			
 			var pos = $(document.getElementById(tableID).tBodies[0].rows[0].cells[col]).position();
 			//console.log(pos);
-			$("#"+divID).css({
+			$(div).css({
 				position: "absolute",
 				top: pos["top"],
 				left: pos["left"]
 			});
-			$("#"+divID).hide();
+			$(div).hide();
 			
 			$(button).click(function(e){
 				e.stopPropagation();
 				placeMultiSelectors();
-				hideAllMultiSelectors(divID);
-				if($("#"+divID).css("display") == "none"){
-					$("#"+divID).show();
+				hideAllMultiSelectors(div);
+				if($(div).css("display") == "none"){
+					$(div).show();
 				}else{
-					$("#"+divID).hide();
+					$(div).hide();
 				}
 			});
 		}
@@ -173,26 +173,27 @@
 						var br = document.createElement('br');
 						form.appendChild(br);
 					}
-					var divID = "div"+tableID+"-"+col;
-					var filterButton = document.createElement("input"); //input element, Submit button
-					filterButton.setAttribute('type',"submit");
-					filterButton.setAttribute('value',"Submit");
+					
+					var buttonDiv = document.createElement("div");
+					
+					var filterButton = document.createElement("button"); //input element, Submit button
 					filterButton.setAttribute('class', 'filter-button')
-					form.appendChild(filterButton);
+					filterButton.innerHTML = "Filter";
+					buttonDiv.appendChild(filterButton);
 					var resetButton = document.createElement("button");
 					resetButton.setAttribute("class", "reset-button");
 					resetButton.innerHTML = "Reset";
-					form.appendChild(resetButton);
+					buttonDiv.appendChild(resetButton);
 					
-					var div = document.createElement('div');
-					div.setAttribute('id',divID);
-					div.setAttribute('class', "mult-selector");
-					div.appendChild(form);
-					document.getElementsByTagName('body')[0].appendChild(div);
+					var ContDiv = document.createElement('div');
+					ContDiv.setAttribute('class', "mult-selector");
+					ContDiv.appendChild(form);
+					ContDiv.appendChild(buttonDiv);
+					document.getElementsByTagName('body')[0].appendChild(ContDiv);
 					
-					multiSelectorsDivArr.push({divID:divID, col: col});
+					multiSelectorsDivArr.push({div:ContDiv, col: col});
 					
-					addFilterButton(col,divID);//Adding the button to trigger filter
+					addFilterButton(col,ContDiv);//Adding the button to trigger filter
 					$('.doFilterSort').submit(function(event){//Stops the form from being submited
 						event.preventDefault();
 						return false;

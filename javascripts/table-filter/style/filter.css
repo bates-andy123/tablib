@@ -16,3 +16,7 @@
 	display:inline-block;
 	margin: 0px;
 }
+.doFilterSort {
+  max-height: 350px;
+  overflow-y: scroll;
+}
