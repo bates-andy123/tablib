@@ -20,10 +20,6 @@ h1{
 .info{
 	padding:10px 0px;
 }
-#sorting-table{
-	margin-left: auto;
-	margin-right: auto;
-}
 /* tables */
 table.tablesorter {
 	font-family:arial;
