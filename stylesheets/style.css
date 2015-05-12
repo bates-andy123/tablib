@@ -7,7 +7,7 @@ p, a, h1, h2, h3, h4, h5, h6{
 	margin:0px;
 }
 .project-name p, .project-name a{
-	color:#C7CDCC;
+	color:#E8F2F0;
 }
 .project-name{
 	background-color: #294161;
@@ -15,7 +15,14 @@ p, a, h1, h2, h3, h4, h5, h6{
 }
 h1{
   font-size: 45px;
-  color: #C7CDCC;
+  color: #E8F2F0;
+}
+.info{
+	padding:10px 0px;
+}
+#sorting-table{
+	margin-left: auto;
+	margin-right: auto;
 }
 /* tables */
 table.tablesorter {
